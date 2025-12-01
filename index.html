@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FEBATRONE | Monil Gandhi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;700&family=Inter:wght@400;600;800&family=Russo+One&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              mono: ['"Fira Code"', 'monospace'],
+              sans: ['"Inter"', 'sans-serif'],
+              display: ['"Russo One"', 'sans-serif'],
+            },
+            colors: {
+              cyber: {
+                black: '#020202',
+                dark: '#0a0a0a',
+                card: '#121212',
+                gray: '#1f1f1f',
+                green: '#00ff41',
+                greenDim: 'rgba(0, 255, 65, 0.1)',
+                cyan: '#0ea5e9',
+                purple: '#8b5cf6',
+              },
+              feba: {
+                yellow: '#FCD34D',
+                orange: '#F97316',
+                pink: '#EC4899',
+                green: '#00ff41',
+              }
+            },
+            animation: {
+              'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'glitch': 'glitch 1.3s cubic-bezier(.25, .46, .45, .94) both infinite',
+              'scanline': 'scanline 8s linear infinite',
+              'float': 'float 6s ease-in-out infinite',
+              'blob': 'blob 10s infinite',
+              'spin-slow': 'spin 15s linear infinite',
+            },
+            backgroundImage: {
+              'cyber-gradient': 'linear-gradient(to bottom right, #050505, #0a0a0a)',
+            },
+            keyframes: {
+              glitch: {
+                '0%': { transform: 'translate(0)' },
+                '20%': { transform: 'translate(-5px, 5px)' },
+                '40%': { transform: 'translate(-5px, -5px)' },
+                '60%': { transform: 'translate(-5px, 5px)' },
+                '80%': { transform: 'translate(5px, -5px)' },
+                '100%': { transform: 'translate(0) skew(10deg)' },
+              },
+              scanline: {
+                '0%': { transform: 'translateY(-100%)' },
+                '100%': { transform: 'translateY(100%)' }
+              },
+              float: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(20px)' },
+              },
+              blob: {
+                '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                '100%': { transform: 'translate(0px, 0px) scale(1)' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      html {
+        scroll-behavior: smooth;
+        height: 100%;
+        overflow-y: scroll;
+      }
+      body {
+        /* Lighter, deeper gradient for better light balance */
+        background: radial-gradient(circle at 50% 0%, #2a2a35 0%, #0a0a0a 60%, #000000 100%);
+        background-attachment: fixed;
+        color: #e5e5e5;
+        overflow-x: hidden;
+      }
+      
+      ::selection {
+        background: #F97316; /* Febatrone Orange */
+        color: #fff;
+      }
+
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #020202;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #333;
+        border-radius: 4px;
+        border: 2px solid #020202;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #F97316;
+      }
+
+      /* OPTIMIZED GLASS CARD: Reduced blur from 20px to 12px for performance */
+      .cyber-card {
+        background: rgba(30, 35, 40, 0.6); /* Lighter base */
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); /* Faster transition */
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      }
+      
+      /* Active Highlight State for ScrollTrigger */
+      .highlight-active {
+        border-color: rgba(249, 115, 22, 0.8) !important; /* Febatrone Orange Force */
+        box-shadow: 0 0 30px rgba(249, 115, 22, 0.25) !important;
+        transform: scale(1.02);
+        z-index: 10;
+        background: rgba(40, 45, 50, 0.85) !important;
+      }
+      
+      @media (max-width: 768px) {
+        .highlight-active {
+          transform: scale(1.01); /* Subtle scale on mobile */
+          box-shadow: 0 0 20px rgba(249, 115, 22, 0.2) !important;
+        }
+      }
+
+      /* Gradient Border Reveal on Hover */
+      .cyber-card::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        padding: 1px;
+        background: linear-gradient(135deg, rgba(252, 211, 77, 0.8), rgba(236, 72, 153, 0.8));
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .cyber-card:hover {
+        transform: translateY(-5px);
+        background: rgba(40, 45, 50, 0.8);
+        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6);
+        border-color: rgba(255, 255, 255, 0.3);
+      }
+      .cyber-card:hover::after {
+        opacity: 1;
+      }
+
+      .scanlines {
+        background: linear-gradient(
+          to bottom,
+          rgba(255,255,255,0),
+          rgba(255,255,255,0) 50%,
+          rgba(0,0,0,0.05) 50%,
+          rgba(0,0,0,0.05)
+        );
+        background-size: 100% 4px;
+        position: fixed;
+        pointer-events: none;
+        top: 0; right: 0; bottom: 0; left: 0;
+        z-index: 50;
+        opacity: 0.03;
+      }
+      
+      /* Febatrone Text Gradient */
+      .text-gradient-feba {
+        background: linear-gradient(to right, #FCD34D 0%, #F97316 50%, #EC4899 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+      }
+
+      /* Logo styles */
+      .febatrone-text {
+        font-family: 'Russo One', sans-serif;
+        background: linear-gradient(to bottom, #FCD34D 0%, #F97316 50%, #EC4899 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        position: relative;
+        text-transform: uppercase;
+        filter: drop-shadow(0px 0px 10px rgba(249, 115, 22, 0.3));
+      }
+      
+      .febatrone-wrapper {
+        position: relative;
+        display: inline-block;
+      }
+      .febatrone-wrapper::after {
+        content: attr(data-text);
+        position: absolute;
+        left: 0; top: 0; z-index: -1;
+        font-family: 'Russo One', sans-serif;
+        background: none;
+        -webkit-text-stroke: 3px rgba(249, 115, 22, 0.2);
+        text-transform: uppercase;
+      }
+
+      /* Mega Background Logo Style - SUBTLER */
+      .febatrone-mega {
+        font-family: 'Russo One', sans-serif;
+        font-size: 20vw;
+        font-weight: 900;
+        background: linear-gradient(180deg, rgba(252, 211, 77, 0.05) 0%, rgba(249, 115, 22, 0.08) 50%, rgba(236, 72, 153, 0.05) 100%);
+        -webkit-background-clip: text;
+        color: transparent;
+        -webkit-text-stroke: 1px rgba(255, 255, 255, 0.05);
+        white-space: nowrap;
+        user-select: none;
+        pointer-events: none;
+        letter-spacing: -0.05em;
+      }
+      
+      /* GSAP Target Classes */
+      .gsap-reveal {
+        opacity: 0;
+        visibility: hidden;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
+    "gsap": "https://aistudiocdn.com/gsap@^3.12.5",
+    "gsap/ScrollTrigger": "https://aistudiocdn.com/gsap@^3.12.5/ScrollTrigger",
+    "gsap/": "https://aistudiocdn.com/gsap@^3.13.0/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+    <div class="scanlines"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
