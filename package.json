@@ -1,4 +1,14 @@
 {
+  "homepage": "https://monil72004.github.io/Portfolio",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+{
   "name": "monil-gandhi-|-cyber-portfolio",
   "private": true,
   "version": "0.0.0",
